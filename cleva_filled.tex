@@ -1,0 +1,161 @@
+\newcommand{\D}{11} % number of protocol dimensions (config option)
+\newcommand{\U}{2} % number of scale units (config option)
+\newcommand{\M}{3}
+\newcommand{\EV}{15} %number of evaluation measures (config option)
+
+\newdimen\R % maximal diagram radius (config option)
+\R=2.7cm
+\newdimen\L % radius to put dimension labels (config option)
+\L=3.3cm
+
+\newcommand{\A}{360/\D} % calculated angle between dimension axes
+\newcommand{\B}{360/\EV} % calculated angle between evaluation measure axes
+\newcommand{\BM}{\B/\M}
+
+\newcommand{\Doffset}{3*\A - 90}
+\newcommand{\Instrip}{3.55cm}
+\newcommand{\Outstrip}{3.8cm}
+\newcommand{\nodefontsize}{|\tiny \selectfont|}
+
+\usetikzlibrary{decorations.text, arrows.meta}
+
+\tikzset{
+  font={\tiny\selectfont},
+  myarrow/.style={thick, -latex},
+  whiteshell/.style={draw=white,fill=white,opacity=0.0},
+  whitecircle/.style={draw=black,fill=white,circle, align=center,, inner sep=1pt, opacity=0.75},
+  magentashell/.style={draw=magenta,fill=magenta,fill opacity=0.4,  opacity=0.3},
+  greenshell/.style={draw=green!50!black,fill=green!50!black, fill opacity=0.4,  opacity=0.3},
+  blueshell/.style={draw=blue!70!black, fill=blue!70!black, fill opacity=0.4,opacity=0.3},
+  orangeshell/.style={draw=orange!90!black, fill=orange!80,fill opacity=0.4, opacity=0.3},
+  cyanshell/.style={draw=cyan!90!black, fill=cyan!80!black,fill opacity=0.4, opacity=0.3},
+  brownshell/.style={draw=brown!90!black, fill=brown!80!black,fill opacity=0.4, opacity=0.3},
+  % #1=radius, #2=start angle, #3=end angle, #4=draw style,
+  % #5 text colour, #6=text
+  pics/strip/.style args = {#1,#2,#3,#4,#5,#6}{
+       code = {
+        \draw[#4] (#2:#1-1.25mm) arc (#2:#3:#1-1.25mm)
+             -- (#3:#1) -- (#3:#1+1.25mm) arc (#3:#2:#1+1.25mm)
+             -- (#2:#1) -- cycle;
+        \path[
+              decoration={text along path, text color=#5, text = {#6},
+                          text align = {align = center}, raise = -0.3ex},
+              decorate] (#2:#1) arc (#2:#3:#1);
+       }
+  }
+}
+
+
+
+\begin{tikzpicture}[scale=1]
+  \path (0:0cm) coordinate (O); % define coordinate for origin
+
+  % draw the spiderweb
+  \foreach \X in {1,...,\D}{
+    \draw [opacity=0.5](\X*\A:0) -- (\X*\A:\R);
+  }
+
+  \foreach \Y in {0,...,\U}{
+    \foreach \X in {1,...,\D}{
+      \path (\X*\A:\Y*\R/\U) coordinate (D\X-\Y);
+      \fill (D\X-\Y) circle (1.5pt);
+    }
+    \draw [opacity=0.5] (0:\Y*\R/\U) \foreach \X in {1,...,\D}{
+        -- (\X*\A:\Y*\R/\U)
+    } -- cycle;
+  }
+
+  % define labels for each dimension axis (names config option)
+  \path (1*\A:\L) node (L1)[yshift=-2ex,xshift=-2.25ex, rotate=\Doffset-2*\A] {Multiple Models};
+  \path (2*\A:\L) node (L2)[yshift=-2.5ex, xshift=-1ex,rotate=\Doffset-\A] {Federated};
+  \path (3*\A:\L) node (L3) [xshift=0ex, yshift=-2.75ex,  rotate=\Doffset]{Online};
+  \path (4*\A:\L) node (L4) [xshift=1.5ex, yshift=-2.25ex, rotate=\Doffset+\A]{Open World};
+  \path (5*\A:\L) node (L5) [xshift=2.5ex, yshift=-0.5ex, rotate=\Doffset+2*\A]{Multiple Modalities};
+  \path (6*\A:\L) node (L6) [xshift=2.75ex, yshift=0.5ex, rotate=-2*\A-5]{Active Data Query};
+  \path (7*\A:\L) node (L7) [xshift=2.75ex, yshift=1.25ex, rotate=5-\A]{Task Order Discovery};
+  \path (8*\A:\L) node (L8) [xshift=2.0ex, yshift=2.5ex, rotate=0]{Task Agnostic};
+  \path (9*\A:\L) node (L9) [xshift=0ex, yshift=2.75ex, rotate=-(\Doffset-1*\A)]{Episodic Memory};
+  \path (10*\A:\L) node (L10) [xshift=-2.5ex,yshift=1ex, rotate=2*\A-15]{Generative};
+  \path (11*\A:\L) node (L11)[yshift=-0.5ex,xshift=-2.75ex, rotate=\Doffset-3*\A] {Uncertainty};
+
+  % for each sample case draw a path around the web along concrete values
+  % for the individual dimensions. Each node along the path is labeled
+  % with an identifier using the following scheme:
+  %
+  %   D<d>-<v>, dimension <d> a number between 1 and \D (#dimensions) and
+  %             value <v> a number between 0 and \U (#scale units)
+  %
+  % The paths will be drawn half-opaque, so that overlapping parts will be
+  % rendered in a composite color.
+
+	% 1 - multiple models,  2 - federated,  3 - online , 4 - open world, 5 -multiple modalities, 6- active, 7 - task order, 8 - task agnostic,  9 - episodic memory,  10 - generative,  11 - uncertainty
+    % Inner circle
+    \draw [color=magenta,line width=1.5pt,opacity=0.6, fill=magenta!10, fill opacity=0.4] (D1-1) -- (D2-2) -- (D3-0) -- (D4-0) -- (D5-0) -- (D6-0) -- (D7-0) -- (D8-0) -- (D9-0) -- (D10-0) -- (D11-0) -- cycle;
+\draw [color=orange!90!black,line width=1.5pt,opacity=0.6, fill=orange!90!black!10, fill opacity=0.4] (D1-2) -- (D2-0) -- (D3-0) -- (D4-0) -- (D5-0) -- (D6-0) -- (D7-0) -- (D8-0) -- (D9-2) -- (D10-2) -- (D11-2) -- cycle;
+\draw [color=cyan!90!black,line width=1.5pt,opacity=0.6, fill=cyan!90!black!10, fill opacity=0.4] (D1-0) -- (D2-0) -- (D3-0) -- (D4-1) -- (D5-1) -- (D6-1) -- (D7-1) -- (D8-1) -- (D9-1) -- (D10-1) -- (D11-0) -- cycle;
+
+
+    % Outer circle
+    % Entry for: Method 1
+\pic at (0,0){strip={\Instrip,72.0,80.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,96.0,104.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,144.0,152.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,192.0,200.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,216.0,224.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,288.0,296.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,312.0,320.0,magentashell, black, {}}};
+\pic at (0,0){strip={\Instrip,360.0,368.0,magentashell, black, {}}};
+
+% Entry for: Method 2
+\pic at (0,0){strip={\Instrip,248.0,256.0,orangeshell, black, {}}};
+\pic at (0,0){strip={\Instrip,296.0,304.0,orangeshell, black, {}}};
+\pic at (0,0){strip={\Instrip,320.0,328.0,orangeshell, black, {}}};
+\pic at (0,0){strip={\Instrip,344.0,352.0,orangeshell, black, {}}};
+\pic at (0,0){strip={\Instrip,368.0,376.0,orangeshell, black, {}}};
+
+% Entry for: Method 3
+\pic at (0,0){strip={\Instrip,184.0,192.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,256.0,264.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,280.0,288.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,304.0,312.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,328.0,336.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,352.0,360.0,cyanshell, black, {}}};
+\pic at (0,0){strip={\Instrip,376.0,384.0,cyanshell, black, {}}};
+
+
+
+    %% OUTSIDE circle
+    % top half
+    \pic at (0,0){strip={\Outstrip, 2*\B,\B,whitecircle,black,\nodefontsize Compute time}};
+    \pic at (0,0){strip={\Outstrip, 3*\B,2*\B,whitecircle,black,\nodefontsize MAC operations}};
+    \pic at (0,0){strip={\Outstrip, 4*\B,3*\B,whitecircle,black,\nodefontsize Communication}};
+    \pic at (0,0){strip={\Outstrip, 5*\B,4*\B,whitecircle,black,\nodefontsize Forgetting}};
+    \pic at (0,0){strip={\Outstrip, 6*\B,5*\B,whitecircle,black,\nodefontsize Forward transfer}};
+    \pic at (0,0){strip={\Outstrip, 7*\B,6*\B,whitecircle,black,\nodefontsize Backward transfer}};
+    \pic at (0,0){strip={\Outstrip, 8*\B,7*\B,whitecircle,black,\nodefontsize Openness}};
+    \pic at (0,0){strip={\Outstrip, \B,0,whitecircle,black,\nodefontsize Parameters}};
+    \pic at (0,0){strip={\Outstrip, -\B,0,whitecircle,black,\nodefontsize Memory}};
+    \pic at (0,0){strip={\Outstrip, -2*\B,-\B,whitecircle,black,\nodefontsize Stored data}};
+    \pic at (0,0){strip={\Outstrip, -3*\B,-2*\B,whitecircle,black,\nodefontsize Generated data}};
+    \pic at (0,0){strip={\Outstrip, -4*\B,-3*\B,whitecircle,black,\nodefontsize Optimization steps}};
+    \pic at (0,0){strip={\Outstrip, -5*\B,-4*\B,whitecircle,black,\nodefontsize Per task metrics}};
+    \pic at (0,0){strip={\Outstrip, -6*\B,-5*\B,whitecircle,black,\nodefontsize Task order}};
+    \pic at (0,0){strip={\Outstrip, -7*\B,-6*\B,whitecircle,black,\nodefontsize Data per task}};
+
+
+    \newcommand{\lentry}[2]{%
+      % #1: color, #2: label
+      \scalebox{0.6}{\fcolorbox{#1!30}{#1!30}{\textcolor{#1!30}{\rule{\fontcharht\font`X}{\fontcharht\font`X}}}} #2
+    }
+    \coordinate (center) at (0,0);
+    {\protect\NoHyper
+    \node[] (legend) [below=4.05cm of center, align = left] {
+      \begin{tabular}{l l l} 
+\lentry{magenta}{Method 1} & \lentry{orange!90!black}{Method 2} & \lentry{cyan!90!black}{Method 3} \\ 
+\end{tabular} 
+
+    };
+    \protect\endNoHyper}
+
+
+\end{tikzpicture}
