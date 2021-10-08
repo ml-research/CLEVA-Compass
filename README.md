@@ -8,7 +8,7 @@ Please visit our paper for more details and include a reference if you make use 
 
 > Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting
 > "CLEVA-Compass: A Continual Learning EValuation Assessment Compass to Promote Research Transparency and Comparability"
-> arxiv ... (pending) 
+> https://arxiv.org/abs/2110.03331 
  
 
 
