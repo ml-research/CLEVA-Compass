@@ -15,7 +15,7 @@ Please visit our paper for more details and include a reference if you make use 
 For convenience, we provide two ways for practical future use of the CLEVA-Compass:
 
 1. We include an automated Python script to generate the CLEVA-Compass diagram.
-2. If you do not want to use Python to automatically generate the compass as described below, you can also base your compass on the supplied `cleva_flled.tex` example and modify the LaTeX source directly to your needs. 
+2. If you do not want to use Python to automatically generate the compass as described below, you can also base your compass on the supplied `cleva_filled.tex` example and modify the LaTeX source directly to your needs. 
 
 ## Create the CLEVA-Compass using Python 
 
