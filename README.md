@@ -1,23 +1,35 @@
 # The Continual Learning EValuation Assessment (CLEVA) Compass
-
-This repository contains a template and code to automatically generate the Continual Learning EValuation Assessment (CLEVA) Compass. 
+This repository contains a template, code, and GUI to automatically generate the Continual Learning EValuation Assessment (CLEVA) Compass. 
 
 The CLEVA-Compass provides the visual means to both identify how continual learning approaches are practically reported and how works can simultaneously be contextualized in the broader literature landscape. In addition to promoting compact specification in the spirit of recent replication trends, the CLEVA-Compass thus provides an intuitive chart to understand the priorities of individual systems, where they resemble each other, and what elements are missing towards a fair comparison. 
 
 Please visit our paper for more details and include a reference if you make use of the CLEVA-Compass in your work:
 
-> Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting
-> "CLEVA-Compass: A Continual Learning EValuation Assessment Compass to Promote Research Transparency and Comparability"
-> arxiv ... (pending) 
- 
+> "CLEVA-Compass: A Continual Learning EValuation Assessment Compass to Promote Research Transparency and Comparability"; 
+> Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting;
+> International Conference on Learning Representations (ICLR) 2022;
+> https://arxiv.org/abs/2110.03331 
+
+## Usage options
+
+To make the CLEVA-Compass as accessible as possible and disseminate in a convenient way, we provide three options for practical use. 
+
+1. We provide a **LaTeX template** for the CLEVA-Compass, making use of the TikZ library to draw the compass within LaTeX. We envision that such a template makes it easy for other authors to include a compass into their future submission, where they can adapt the naming and values of the entries respectively.
+2. We further provide a **Python script** to generate the CLEVA-Compass. In fact, because the use of drawing in LaTeX with TikZ may be unintuitive for some, we have written a Python script that automatically fills the above LaTeX template, so that it can later simply be included into a LaTeX document. The Python script takes a path to a JSON file that needs to be filled by the user with the CLEVA-Compass options. We further provide a default JSON file that is easy to adapt.
+3. To further lower the barrier for dissemination and use, we also provide a **CLEVA-Compass Graphical User Interface (GUI)**. The GUI makes it easy for users to simply "click together" their desired compasses, save images or export to LaTeX, and conversely import already existing compass 
+
+## Create the CLEVA-Compass using the GUI
+
+<p align="center">
+ <img src="./GUI.png">
+</p>
+
+The CLEVA-Compass GUI can be run using Python: `python cleva_gui.py`. The application requires at least `TkInter` to be installed (Ubuntu: `apt install python3-tk`, Fedora: `dnf install python3-tkinter`, Arch Linux: `pacman -S tk`, MacOS: `brew install python-tk`). For the interactive visualization of the CLEVA-Compass, the system-wide [Poppler](https://poppler.freedesktop.org/) library is necessary (Ubuntu: `apt install poppler-utils`, Fedora: `dnf install poppler`, Arch Linux: `pacman -S poppler`, MacOS: `brew install poppler`) as well as a few additional Python dependencies are required (see [`gui_requirements.txt`](./gui_requirements.txt), install with `pip install -r gui_requirements.txt`). 
+
+The GUI exposes tooltips on mouse-hover to display information on button actions and inner/outer level options. The main idea is that users create their own CLEVA-Compass visualization by interactively generating entries for specific methods. The list of current entries is shown on the bottom right in the GUI. A method entry consists of a unique label, a selected color, and inner/outer level options. If all is set, the `Add Compass Entry` button can be pressed and the entry will be listed below. Entries can be deleted when selected with the `Delete Compass Entry` button. A selected entry can also be change and its updated options stored when the `Update Compass Entry` button is pressed. The Compass preview can be generated explicitly, based on the current set of entries, using the `Reload Preview` button. Furthermore, entries can be imported (`Import Ent. from File(s)`) and exported (`Export Entry to File`) as a JSON file for serialization purposes, as well as SVG/PNG images (`Export to Image`) or as TikZ LaTeX code (`Export to Tex File`) which can be readily included into LaTeX documents.
 
 
-For convenience, we provide two ways for practical future use of the CLEVA-Compass:
-
-1. We include an automated Python script to generate the CLEVA-Compass diagram.
-2. If you do not want to use Python to automatically generate the compass as described below, you can also base your compass on the supplied `cleva_flled.tex` example and modify the LaTeX source directly to your needs. 
-
-## Create the CLEVA-Compass using Python 
+## Create the CLEVA-Compass using the Python Script
 
 You can use the `create_compass.py` python script to generate a compass and specify how it is filled for each continual approach in a JSON file:
 
