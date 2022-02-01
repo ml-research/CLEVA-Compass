@@ -5,6 +5,7 @@ The CLEVA-Compass provides the visual means to both identify how continual learn
 
 Please visit our paper for more details and include a reference if you make use of the CLEVA-Compass in your work:
 
+
 > "CLEVA-Compass: A Continual Learning EValuation Assessment Compass to Promote Research Transparency and Comparability"; 
 > Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting;
 > International Conference on Learning Representations (ICLR) 2022;
