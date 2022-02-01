@@ -1,0 +1,5 @@
+numpy==1.21.1
+dataclasses==0.8
+pdf2image==1.16.0
+Pillow==8.4.0
+ttkthemes==3.2.2

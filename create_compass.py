@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 import json
-from dataclasses import dataclass
 from typing import List
 import math
 import argparse
+from levels import InnerLevel, OuterLevel, CompassEntry
 
 # Constants
 D = 11  # Number of protocol dimensions
@@ -19,108 +19,22 @@ def parse_arguments():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument(
-        "--template", default="cleva_template.tex", help="Tikz template file.",
+        "--template",
+        default="cleva_template.tex",
+        help="Tikz template file.",
     )
     parser.add_argument(
-        "--output", default="cleva_filled.tex", help="Tikz filled output file.",
+        "--output",
+        default="cleva_filled.tex",
+        help="Tikz filled output file.",
     )
     parser.add_argument(
-        "--data", default="data.json", help="Entries as JSON file.",
+        "--data",
+        default="data.json",
+        help="Entries as JSON file.",
     )
 
     return parser.parse_args()
-
-
-@dataclass
-class InnerLevel:
-    """Inner CLEVA-Compass level with method attributes."""
-
-    multiple_models: int
-    federated: int
-    online: int
-    open_world: int
-    multiple_modalities: int
-    active_data_query: int
-    task_order_discovery: int
-    task_agnostic: int
-    episodic_memory: int
-    generative: int
-    uncertainty: int
-
-    def __iter__(self):
-        """
-        Defines the iteration order. This needs to be the same order as defined in the
-        cleva_template.tex file.
-        """
-        for item in [
-            self.multiple_models,
-            self.federated,
-            self.online,
-            self.open_world,
-            self.multiple_modalities,
-            self.active_data_query,
-            self.task_order_discovery,
-            self.task_agnostic,
-            self.episodic_memory,
-            self.generative,
-            self.uncertainty,
-        ]:
-            yield item
-
-
-@dataclass
-class OuterLevel:
-    """Outer CLEVA-Compass level with measurement attributes."""
-
-    compute_time: bool
-    mac_operations: bool
-    communication: bool
-    forgetting: bool
-    forward_transfer: bool
-    backward_transfer: bool
-    openness: bool
-    parameters: bool
-    memory: bool
-    stored_data: bool
-    generated_data: bool
-    optimization_steps: bool
-    per_task_metric: bool
-    task_order: bool
-    data_per_task: bool
-
-    def __iter__(self):
-        """
-        Defines the iteration order. This needs to be the same order as defined in the
-        cleva_template.tex file.
-        """
-        for item in [
-            self.parameters,
-            self.compute_time,
-            self.mac_operations,
-            self.communication,
-            self.forgetting,
-            self.forward_transfer,
-            self.backward_transfer,
-            self.openness,
-            self.data_per_task,
-            self.task_order,
-            self.per_task_metric,
-            self.optimization_steps,
-            self.generated_data,
-            self.stored_data,
-            self.memory,
-        ]:
-            yield item
-
-
-@dataclass
-class CompassEntry:
-    """Compass entry containing color, label, and attributes."""
-
-    color: str  # Color, can be one of [magenta, green, blue, orange, cyan, brown]
-    label: str  # Legend label
-    inner_level: InnerLevel
-    outer_level: OuterLevel
 
 
 def mapcolor(color):
@@ -241,10 +155,9 @@ def insert_number_of_methods(template, entries: List[CompassEntry]):
     return template
 
 
-def read_json_entries():
+def read_json_entries(entries_json):
     """Read the compass entries from a json file."""
     entries = []
-    entries_json = json.load(open(args.data))["entries"]
     for d in entries_json:
         dil = d["inner_level"]
         dol = d["outer_level"]
@@ -286,14 +199,55 @@ def read_json_entries():
     return entries
 
 
-if __name__ == "__main__":
-    args = parse_arguments()
+def generate_random_entries():
+    import numpy as np
 
-    # Read the compass entry from the given json data file
-    entries = read_json_entries()
+    np.random.seed(0)
 
-    # Read template content
-    template_path = args.template
+    entries = []
+    for i in range(6):
+        entries.append(
+            CompassEntry(
+                color=np.random.choice(["magenta", "cyan", "green", "orange", "brown", "blue"]),
+                label="Method " + str(i),
+                inner_level=InnerLevel(
+                    multiple_models=np.random.randint(3),
+                    federated=np.random.randint(3),
+                    online=np.random.randint(3),
+                    open_world=np.random.randint(3),
+                    multiple_modalities=np.random.randint(3),
+                    active_data_query=np.random.randint(3),
+                    task_order_discovery=np.random.randint(3),
+                    task_agnostic=np.random.randint(3),
+                    episodic_memory=np.random.randint(3),
+                    generative=np.random.randint(3),
+                    uncertainty=np.random.randint(3),
+                ),
+                outer_level=OuterLevel(
+                    compute_time=bool(np.random.randint(2)),
+                    mac_operations=bool(np.random.randint(2)),
+                    communication=bool(np.random.randint(2)),
+                    forgetting=bool(np.random.randint(2)),
+                    forward_transfer=bool(np.random.randint(2)),
+                    backward_transfer=bool(np.random.randint(2)),
+                    openness=bool(np.random.randint(2)),
+                    parameters=bool(np.random.randint(2)),
+                    memory=bool(np.random.randint(2)),
+                    stored_data=bool(np.random.randint(2)),
+                    generated_data=bool(np.random.randint(2)),
+                    optimization_steps=bool(np.random.randint(2)),
+                    per_task_metric=bool(np.random.randint(2)),
+                    task_order=bool(np.random.randint(2)),
+                    data_per_task=bool(np.random.randint(2)),
+                ),
+            )
+        )
+
+    return entries
+
+
+def fill_template(template_path, entries):
+    template_path = template_path
     with open(template_path) as f:
         template = "".join(f.readlines())
 
@@ -303,6 +257,20 @@ if __name__ == "__main__":
     output = insert_outer_level(output, entries)
     output = insert_inner_level(output, entries)
     output = insert_number_of_methods(output, entries)
+
+    return output
+
+
+if __name__ == "__main__":
+    args = parse_arguments()
+
+    # Read the compass entry from the given json data file
+    entries_json = json.load(open(args.data))["entries"]
+    entries = read_json_entries(entries_json)
+    # entries = generate_random_entries()
+
+    # Read template content
+    output = fill_template(args.template, entries)
 
     # Write output to the desired destination
     with open(args.output, "w") as f:

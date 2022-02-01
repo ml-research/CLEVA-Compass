@@ -1,6 +1,6 @@
 \newcommand{\D}{11} % number of protocol dimensions (config option)
 \newcommand{\U}{2} % number of scale units (config option)
-\newcommand{\M}{3}
+\newcommand{\M}{0}
 \newcommand{\EV}{15} %number of evaluation measures (config option)
 
 \newdimen\R % maximal diagram radius (config option)
@@ -13,8 +13,8 @@
 \newcommand{\BM}{\B/\M}
 
 \newcommand{\Doffset}{3*\A - 90}
-\newcommand{\Instrip}{3.55cm}
-\newcommand{\Outstrip}{3.8cm}
+\newcommand{\Instrip}{3.6cm}
+\newcommand{\Outstrip}{3.85cm}
 \newcommand{\nodefontsize}{|\tiny \selectfont|}
 
 \usetikzlibrary{decorations.text, arrows.meta}
@@ -89,58 +89,35 @@
   % rendered in a composite color.
 
 	% 1 - multiple models,  2 - federated,  3 - online , 4 - open world, 5 -multiple modalities, 6- active, 7 - task order, 8 - task agnostic,  9 - episodic memory,  10 - generative,  11 - uncertainty
-    % Inner circle
-    \draw [color=magenta,line width=1.5pt,opacity=0.6, fill=magenta!10, fill opacity=0.4] (D1-1) -- (D2-2) -- (D3-0) -- (D4-0) -- (D5-0) -- (D6-0) -- (D7-0) -- (D8-0) -- (D9-0) -- (D10-0) -- (D11-0) -- cycle;
-\draw [color=orange!90!black,line width=1.5pt,opacity=0.6, fill=orange!90!black!10, fill opacity=0.4] (D1-2) -- (D2-0) -- (D3-0) -- (D4-0) -- (D5-0) -- (D6-0) -- (D7-0) -- (D8-0) -- (D9-2) -- (D10-2) -- (D11-2) -- cycle;
-\draw [color=cyan!90!black,line width=1.5pt,opacity=0.6, fill=cyan!90!black!10, fill opacity=0.4] (D1-0) -- (D2-0) -- (D3-0) -- (D4-1) -- (D5-1) -- (D6-1) -- (D7-1) -- (D8-1) -- (D9-1) -- (D10-1) -- (D11-0) -- cycle;
 
+    % Inner circle
+    
 
     % Outer circle
-    % Entry for: Method 1
-\pic at (0,0){strip={\Instrip,72.0,80.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,96.0,104.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,144.0,152.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,192.0,200.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,216.0,224.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,288.0,296.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,312.0,320.0,magentashell, black, {}}};
-\pic at (0,0){strip={\Instrip,360.0,368.0,magentashell, black, {}}};
-
-% Entry for: Method 2
-\pic at (0,0){strip={\Instrip,248.0,256.0,orangeshell, black, {}}};
-\pic at (0,0){strip={\Instrip,296.0,304.0,orangeshell, black, {}}};
-\pic at (0,0){strip={\Instrip,320.0,328.0,orangeshell, black, {}}};
-\pic at (0,0){strip={\Instrip,344.0,352.0,orangeshell, black, {}}};
-\pic at (0,0){strip={\Instrip,368.0,376.0,orangeshell, black, {}}};
-
-% Entry for: Method 3
-\pic at (0,0){strip={\Instrip,184.0,192.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,256.0,264.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,280.0,288.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,304.0,312.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,328.0,336.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,352.0,360.0,cyanshell, black, {}}};
-\pic at (0,0){strip={\Instrip,376.0,384.0,cyanshell, black, {}}};
+    
 
 
+    %% OUTSIDE circle labels
+    % Top half
+    \pic at (0,0){strip={\Outstrip,  1*\B,  0*\B,whitecircle,black,\nodefontsize Parameters}};
+    \pic at (0,0){strip={\Outstrip,  2*\B,  1*\B,whitecircle,black,\nodefontsize Compute time}};
+    \pic at (0,0){strip={\Outstrip,  3*\B,  2*\B,whitecircle,black,\nodefontsize MAC operations}};
+    \pic at (0,0){strip={\Outstrip,  4*\B,  3*\B,whitecircle,black,\nodefontsize Communication}};
+    \pic at (0,0){strip={\Outstrip,  5*\B,  4*\B,whitecircle,black,\nodefontsize Forgetting}};
+    \pic at (0,0){strip={\Outstrip,  6*\B,  5*\B,whitecircle,black,\nodefontsize Forward transfer}};
+    \pic at (0,0){strip={\Outstrip,  7*\B,  6*\B,whitecircle,black,\nodefontsize Backward transfer}};
+    \pic at (0,0){strip={\Outstrip,  8*\B,  7*\B,whitecircle,black,\nodefontsize Openness}};
 
-    %% OUTSIDE circle
-    % top half
-    \pic at (0,0){strip={\Outstrip, 2*\B,\B,whitecircle,black,\nodefontsize Compute time}};
-    \pic at (0,0){strip={\Outstrip, 3*\B,2*\B,whitecircle,black,\nodefontsize MAC operations}};
-    \pic at (0,0){strip={\Outstrip, 4*\B,3*\B,whitecircle,black,\nodefontsize Communication}};
-    \pic at (0,0){strip={\Outstrip, 5*\B,4*\B,whitecircle,black,\nodefontsize Forgetting}};
-    \pic at (0,0){strip={\Outstrip, 6*\B,5*\B,whitecircle,black,\nodefontsize Forward transfer}};
-    \pic at (0,0){strip={\Outstrip, 7*\B,6*\B,whitecircle,black,\nodefontsize Backward transfer}};
-    \pic at (0,0){strip={\Outstrip, 8*\B,7*\B,whitecircle,black,\nodefontsize Openness}};
-    \pic at (0,0){strip={\Outstrip, \B,0,whitecircle,black,\nodefontsize Parameters}};
-    \pic at (0,0){strip={\Outstrip, -\B,0,whitecircle,black,\nodefontsize Memory}};
-    \pic at (0,0){strip={\Outstrip, -2*\B,-\B,whitecircle,black,\nodefontsize Stored data}};
-    \pic at (0,0){strip={\Outstrip, -3*\B,-2*\B,whitecircle,black,\nodefontsize Generated data}};
-    \pic at (0,0){strip={\Outstrip, -4*\B,-3*\B,whitecircle,black,\nodefontsize Optimization steps}};
-    \pic at (0,0){strip={\Outstrip, -5*\B,-4*\B,whitecircle,black,\nodefontsize Per task metrics}};
-    \pic at (0,0){strip={\Outstrip, -6*\B,-5*\B,whitecircle,black,\nodefontsize Task order}};
-    \pic at (0,0){strip={\Outstrip, -7*\B,-6*\B,whitecircle,black,\nodefontsize Data per task}};
+    % Bottom half (invert direction here instead of (i * \B, i-1 * \B) do (i-1 * \B, i * \B)
+    % for improved text label readability
+    \pic at (0,0){strip={\Outstrip,  8*\B,  9*\B,whitecircle,black,\nodefontsize Data per task}};
+    \pic at (0,0){strip={\Outstrip,  9*\B, 10*\B,whitecircle,black,\nodefontsize Task order}};
+    \pic at (0,0){strip={\Outstrip, 10*\B, 11*\B,whitecircle,black,\nodefontsize Per task metrics}};
+    \pic at (0,0){strip={\Outstrip, 11*\B, 12*\B,whitecircle,black,\nodefontsize Optimization steps}};
+    \pic at (0,0){strip={\Outstrip, 12*\B, 13*\B,whitecircle,black,\nodefontsize Generated data}};
+    \pic at (0,0){strip={\Outstrip, 13*\B, 14*\B,whitecircle,black,\nodefontsize Stored data}};
+    \pic at (0,0){strip={\Outstrip, 14*\B, 15*\B,whitecircle,black,\nodefontsize Memory}};
+
 
 
     \newcommand{\lentry}[2]{%
@@ -150,10 +127,7 @@
     \coordinate (center) at (0,0);
     {\protect\NoHyper
     \node[] (legend) [below=4.05cm of center, align = left] {
-      \begin{tabular}{l l l} 
-\lentry{magenta}{Method 1} & \lentry{orange!90!black}{Method 2} & \lentry{cyan!90!black}{Method 3} \\ 
-\end{tabular} 
-
+      %-$LEGEND$
     };
     \protect\endNoHyper}
 
