@@ -4,6 +4,7 @@ import json
 try:
     from tkinter import *
     from tkinter import filedialog as fd
+    from tkinter import simpledialog as sd
     from tkinter import messagebox
     from tkinter import ttk
     from tkinter import font
@@ -16,6 +17,7 @@ except:
 
 from create_compass import read_json_entries, fill_template
 from levels import CompassEntry
+from collections import OrderedDict
 
 try:
     # Try to import ImageTk from pillow
@@ -35,6 +37,8 @@ except ImportError:
     MISSING_PDF2IMG = True
 
 from gui_utils import add_tooltip, entry_to_json, scale_image_to_width, download_methods
+from tkinter.colorchooser import askcolor
+
 
 root = Tk()
 root.configure(bg="white")
@@ -154,6 +158,92 @@ for i, (color, color_bg) in enumerate(zip(colors, colors_val)):
 
     # root.columnconfigure(i+1, minsize=300, pad=0)
 
+
+# def select_color():
+#     ncolor_bg = askcolor(title="Tkinter Color Chooser")[1]
+#     color_name = sd.askstring("Color Name", "What's the color name ?")
+#     print(ncolor_bg)
+#     ttk.Style().configure(
+#         f"{color_name}.TRadiobutton",
+#         background=ncolor_bg,
+#         foreground="black",
+#     )
+#     rb = ttk.Radiobutton(
+#         root,
+#         text=" " + color_name,
+#         variable=color_val,
+#         width=10,
+#         value=color_name,
+#         style=f"{color_name}.TRadiobutton",
+#     )
+#     rb.grid(row=row_n+1, column=i%5+2, padx=padx, pady=pady)
+#     return rb
+
+
+class ExtraColorChooser():
+    extra_colors = OrderedDict({"lime": "#bfff00", "pink": "#ffc0c1",
+                                "purple": "#be0040", "teal": '#008080',
+                                "lightgray": "#bfbfbf"})
+    row_n = 2
+    added_colors = []
+    def __init__(self):
+        self.win = Toplevel()
+        self.win.wm_title("Choose another color")
+        first_av = next(iter(self.extra_colors))  # first available elem
+        self.e_color_val = StringVar(root, first_av)
+        for i, color in enumerate(self.extra_colors):
+            color_bg = self.extra_colors[color]
+            ttk.Style().configure(
+                f"{color}.TRadiobutton",
+                background=color_bg,
+                foreground="black",
+            )
+            rb = ttk.Radiobutton(
+                self.win,
+                text=" " + color,
+                variable=self.e_color_val,
+                width=10,
+                value=color,
+                style=f"{color}.TRadiobutton",
+            )
+            rbs.append(rb)
+            rb.grid(row=0, column=i, padx=padx, pady=pady)
+        b = ttk.Button(self.win, text="Okay", command=self.quit)
+        b.grid(row=1, column=0)
+
+    def quit(self):
+        self.win.destroy()
+        selected_color = self.e_color_val.get()
+        selected_value = self.extra_colors.pop(selected_color)
+        ttk.Style().configure(
+            f"{selected_color}.TRadiobutton",
+            background=selected_value,
+            foreground="black",
+        )
+        rb = ttk.Radiobutton(
+            root,
+            text=" " + selected_color,
+            variable=color_val,
+            width=10,
+            value=selected_color,
+            style=f"{selected_color}.TRadiobutton",
+        )
+        j = len(self.added_colors) % 5 + 1
+        self.added_colors.append(selected_color)
+        rb.grid(row=2, column=5+j, padx=padx, pady=pady)
+        rbs.append(rb)
+        if self.extra_colors:
+            add_color_b.grid(row=2, column=5+j+1, padx=padx, pady=pady)
+        else:
+            add_color_b.grid_forget()
+
+
+def add_color():
+    elem = ExtraColorChooser()
+
+
+add_color_b = ttk.Button(root, text='+', command=add_color)
+add_color_b.grid(row=row_n+1, column=6, padx=padx, pady=pady)
 
 # Create label for inner ring
 inner_level_start_row = row_n + 1

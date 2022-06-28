@@ -46,6 +46,11 @@ def mapcolor(color):
         "orange": "orange!90!black",
         "cyan": "cyan!90!black",
         "brown": "brown!90!black",
+        "lime": "lime",
+        "pink": "pink",
+        "purple": "purple",
+        "teal": "teal",
+        "lightgray": "lightgray",
     }[color]
 
 
