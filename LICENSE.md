@@ -1,6 +1,6 @@
 The MIT License (MIT)
 
-Copyright (c) 2023 Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting
+Copyright (c) 2023 Martin Mundt, Steven Braun, Quentin Delfosse, Kristian Kersting
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
