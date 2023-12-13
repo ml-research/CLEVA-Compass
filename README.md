@@ -139,6 +139,16 @@ A JSON file with multiple entries ([`examples/compass_data_3.json`](./examples/c
 
 If you want to directly modify a filled template without using the Python script described below, we also provide `cleva_filled.tex` as an example with three entries, which corresponds to the results of `python create_compass.py --data examples/compass_data_3.json`.
 
+## Docker Usage
+
+We further provide a `Dockerfile` for easier reproducibility. Build the docker image with `docker build . -t cleva` and run
+
+```sh
+docker run -v ./:/app cleva bash -c "cd /app && python create_compass.py --data examples/compass_data_3.json && python tikz2svg.py cleva_filled.tex"
+```
+
+This will use the `examples/compass_data_3.json` file and produce the tikz code in `./cleva_filled.tex` and a rasterized image in `./cleva_compass.png`.
+
 ## Contribute to transparency in continual learning
 
 The CLEVA-Compass GUI can synchronize (download) existing methods from the repository, both as a means to avoid needless replication of methods, but also as a way to aggregate existing techniques in an attempt to make the continual learning landscape more transparent. 
