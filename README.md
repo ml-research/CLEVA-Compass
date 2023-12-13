@@ -5,7 +5,6 @@ The CLEVA-Compass provides the visual means to both identify how continual learn
 
 Please visit our paper for more details and include a reference if you make use of the CLEVA-Compass in your work:
 
-
 > "CLEVA-Compass: A Continual Learning EValuation Assessment Compass to Promote Research Transparency and Comparability"; 
 > Martin Mundt, Steven Lang, Quentin Delfosse, Kristian Kersting;
 > International Conference on Learning Representations (ICLR) 2022;
@@ -13,7 +12,7 @@ Please visit our paper for more details and include a reference if you make use 
 
 ## Usage options
 
-To make the CLEVA-Compass as accessible as possible and disseminate in a convenient way, we provide three options for practical use. 
+To make the CLEVA-Compass as accessible as possible and disseminate in a convenient way, we provide three options for practical use.
 
 1. We provide a **LaTeX template** for the CLEVA-Compass, making use of the TikZ library to draw the compass within LaTeX. We envision that such a template makes it easy for other authors to include a compass into their future submission, where they can adapt the naming and values of the entries respectively.
 2. We further provide a **Python script** to generate the CLEVA-Compass. In fact, because the use of drawing in LaTeX with TikZ may be unintuitive for some, we have written a Python script that automatically fills the above LaTeX template, so that it can later simply be included into a LaTeX document. The Python script takes a path to a JSON file that needs to be filled by the user with the CLEVA-Compass options. We further provide a default JSON file that is easy to adapt.
@@ -28,7 +27,6 @@ To make the CLEVA-Compass as accessible as possible and disseminate in a conveni
 The CLEVA-Compass GUI can be run using Python: `python cleva_gui.py`. The application requires at least `TkInter` to be installed (Ubuntu: `apt install python3-tk`, Fedora: `dnf install python3-tkinter`, Arch Linux: `pacman -S tk`, MacOS: `brew install python-tk`). For the interactive visualization of the CLEVA-Compass, the system-wide [Poppler](https://poppler.freedesktop.org/) library is necessary (Ubuntu: `apt install poppler-utils`, Fedora: `dnf install poppler`, Arch Linux: `pacman -S poppler`, MacOS: `brew install poppler`) as well as a few additional Python dependencies are required (see [`gui_requirements.txt`](./gui_requirements.txt), install with `pip install -r gui_requirements.txt`). 
 
 The GUI exposes tooltips on mouse-hover to display information on button actions and inner/outer level options. The main idea is that users create their own CLEVA-Compass visualization by interactively generating entries for specific methods. The list of current entries is shown on the bottom right in the GUI. A method entry consists of a unique label, a selected color, and inner/outer level options. If all is set, the `Add Compass Entry` button can be pressed and the entry will be listed below. Entries can be deleted when selected with the `Delete Compass Entry` button. A selected entry can also be change and its updated options stored when the `Update Compass Entry` button is pressed. The Compass preview can be generated explicitly, based on the current set of entries, using the `Reload Preview` button. Furthermore, entries can be imported (`Import Ent. from File(s)`) and exported (`Export Entry to File`) as a JSON file for serialization purposes, as well as SVG/PNG images (`Export to Image`) or as TikZ LaTeX code (`Export to Tex File`) which can be readily included into LaTeX documents.
-
 
 ## Create the CLEVA-Compass using the Python Script
 
@@ -49,12 +47,11 @@ optional arguments:
 
 For this purpose we provide the template file `cleva_template.tex`.
 
-
 ### Example Usage
 The default reads the template file from `cleva_template.tex` and writes the filled output file into `cleva_filled.tex` with the data specified via `--data <JSON_FILE>`:
 
 ``` sh
-$ python --data examples/compass_data_0.json
+$ python create_compass.py --data examples/compass_data_0.json
 ```
 
 An "empty" CLEVA-Compass, generated with [`examples/compass_data_0.json`](./examples/compass_data_0.json), looks like this:
@@ -134,7 +131,6 @@ With the above example, this results in the following visualization:
  <img src="./examples/example-1.svg">
 </p>
 
-
 A JSON file with multiple entries ([`examples/compass_data_3.json`](./examples/compass_data_3.json)) produces the following compass:
 
 <p align="center">
@@ -143,13 +139,22 @@ A JSON file with multiple entries ([`examples/compass_data_3.json`](./examples/c
 
 If you want to directly modify a filled template without using the Python script described below, we also provide `cleva_filled.tex` as an example with three entries, which corresponds to the results of `python create_compass.py --data examples/compass_data_3.json`.
 
+## Docker Usage
+
+We further provide a `Dockerfile` for easier reproducibility. Build the docker image with `docker build . -t cleva` and run
+
+```sh
+docker run -v ./:/app cleva bash -c "cd /app && python create_compass.py --data examples/compass_data_3.json && python tikz2svg.py cleva_filled.tex"
+```
+
+This will use the `examples/compass_data_3.json` file and produce the tikz code in `./cleva_filled.tex` and a rasterized image in `./cleva_compass.png`.
+
 ## Contribute to transparency in continual learning
 
 The CLEVA-Compass GUI can synchronize (download) existing methods from the repository, both as a means to avoid needless replication of methods, but also as a way to aggregate existing techniques in an attempt to make the continual learning landscape more transparent. 
 
 We believe this is a community effort and should not be steered by a single commitee (us). In that spirit, **we welcome contributions of json files for existing continual learning methods, so that prospective users of the CLEVA-Compass can have convenient rapid access to a growing amount of CLEVA-Compass visualizations**. Please feel free to start a pull request and add a json file for methods that are not yet present in this repository's `methods` directory. 
 
-
 See also the following quoted paragraph from our paper's Appendix C: 
 
-> **Loading and the CLEVA-Compass repository to accumulate methods**: The final not yet de- scribed element of the GUI are the Import Entry from File(s) and Download Methods buttons. The Import Entry from File(s) functionality serves the purpose to enable users to load already existing CLEVA-Compass visualizations, in the form of loading their methods’ JSON representations. As such, users will not have to replicate each and every method that has already been visualized in the CLEVA-Compass by hand. In addition to this, a list of existing methods, which at the point of writing this paper consists of the five methods of the main body, is provided in our public repository. By using the Download Methods button the GUI will automatically synchronize the up-to-date list of available methods and enable an interactive selection. Our vision is that prospective papers can contribute their own visualizations to this repository, so the amount of published methods and their CLEVA-Compass representations grows into a comprehensive repository. We strongly believe that this can help foster transparency in our community for prospective continual learning authors, but also in terms of creating a more straightforward overview of the set-up and evaluation practices of continual learning approaches for application engineers and practitioners. As a side note, we note that this attempt at cataloguing works and their “rolling” aggregation is separate from proposing prospective adaptation and extensions of the CLEVA-Compass (think of the example of including causality in our main body’s outlook). For such major content and functionality updates, we subjec- tively envision a “discrete release” model, where prospective changes are encouraged to first undergo further stages of peer review, before being finally included into a CLEVA-Compass repository up- date. Although this may initially appear to slow down adoption of new methods, we argue in favor of this approach to limit the risk of a fixed set of researchers and a tiny portion of the community controlling such fundamental changes that steer the course of continual learning." 
+> **Loading and the CLEVA-Compass repository to accumulate methods**: The final not yet de- scribed element of the GUI are the Import Entry from File(s) and Download Methods buttons. The Import Entry from File(s) functionality serves the purpose to enable users to load already existing CLEVA-Compass visualizations, in the form of loading their methods’ JSON representations. As such, users will not have to replicate each and every method that has already been visualized in the CLEVA-Compass by hand. In addition to this, a list of existing methods, which at the point of writing this paper consists of the five methods of the main body, is provided in our public repository. By using the Download Methods button the GUI will automatically synchronize the up-to-date list of available methods and enable an interactive selection. Our vision is that prospective papers can contribute their own visualizations to this repository, so the amount of published methods and their CLEVA-Compass representations grows into a comprehensive repository. We strongly believe that this can help foster transparency in our community for prospective continual learning authors, but also in terms of creating a more straightforward overview of the set-up and evaluation practices of continual learning approaches for application engineers and practitioners. As a side note, we note that this attempt at cataloguing works and their “rolling” aggregation is separate from proposing prospective adaptation and extensions of the CLEVA-Compass (think of the example of including causality in our main body’s outlook). For such major content and functionality updates, we subjec- tively envision a “discrete release” model, where prospective changes are encouraged to first undergo further stages of peer review, before being finally included into a CLEVA-Compass repository up- date. Although this may initially appear to slow down adoption of new methods, we argue in favor of this approach to limit the risk of a fixed set of researchers and a tiny portion of the community controlling such fundamental changes that steer the course of continual learning.

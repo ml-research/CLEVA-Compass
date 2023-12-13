@@ -195,5 +195,4 @@ if __name__ == "__main__":
     lines = "".join([l for l in fileinput.input()])
     # compile2svg(lines)
     image = tikz2img(lines)
-    print(image)
-    # pdf2image.
+    image.save("cleva_compass.png")
